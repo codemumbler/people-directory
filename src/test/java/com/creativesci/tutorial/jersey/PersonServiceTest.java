@@ -1,9 +1,9 @@
 package com.creativesci.tutorial.jersey;
 
-
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.ws.rs.core.Application;
@@ -26,18 +26,11 @@ public class PersonServiceTest extends JerseyTest {
         config.register(PersonApplication.createMoxyJsonResolver());
     }
 
-
     @Test
     public void testGetAllPeopleReturnsEmptyList() {
-        try {
-            GenericType<List<Person>> genericRootElement =
-                    new GenericType<List<Person>>() {};
-            target().path("/person").request(MediaType.APPLICATION_JSON).get(genericRootElement);
-            //assertTrue(allPeople.isEmpty());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-
+        GenericType<List<Person>> genericRootElement =
+                new GenericType<List<Person>>() {};
+        List<Person> allPeople = target().path("/person").request(MediaType.APPLICATION_JSON).get(genericRootElement);
+        Assert.assertTrue(allPeople.isEmpty());
     }
 }
